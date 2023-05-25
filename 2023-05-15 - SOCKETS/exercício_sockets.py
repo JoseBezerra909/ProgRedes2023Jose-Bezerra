@@ -1,5 +1,5 @@
 #imports
-import socket
+import socket, ssl, sys
 #--------------------------------------------
 #funções
 def manipular_url(original_url):
@@ -19,23 +19,23 @@ def manipular_url(original_url):
     return url_host,url_image,arq_img,arq_txt
 #---------------------------------------------
 
-#url_s = manipular_url(input(f'Digite a URL:'))
-#print(url_s)
+#url_s = manipular_url(input('Digite URL: '))
+host = 'www.example.com'
+port = 80
 
-#url_host    = url_s[0]
-#url_image   = url_s[1]
+try:
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((host,port))
+    request = bytes(f'GET / HTTP/1.1\r\nHost: {host}\r\n\r\n','utf-8')
+    sock.send(request)
 
-host = 'nasa.gov'
-port = 443
+    while True:
+        resposta = sock.recv(1024)
+        resposta = resposta.decode('utf-8')
+        print(resposta) 
+        if not resposta: 
+            sock.close()
+            break    
 
-tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-tcp_socket.connect((host , port))
-
-requisicao = f'HEAD / HTTP/1.1\r\nHost: {host}\r\nAccept: text/html\r\nConnection: close\r\n\r\n'
-tcp_socket.sendall(requisicao.encode('utf-8'))
-
-print('-'*100)
-print(str(tcp_socket.recv(1024), 'utf-8'))
-print('-'*100)
-
-tcp_socket.close()
+except socket.gaierror as e:
+    print(f'{e}')
