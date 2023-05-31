@@ -62,8 +62,6 @@ def salvar(dados,arquivo,arquivo_txt):
         exit()
 
 #---------------------------------------------
-#url_s = manipular_url('https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png')
-#url_s = manipular_url('https://ead.ifrn.edu.br/portal/wp-content/uploads/2019/03/4Iwakb0M_400x400.png')
 url_s = manipular_url(input('Digite uma URL:'))
 
 protocolo = url_s[0]
