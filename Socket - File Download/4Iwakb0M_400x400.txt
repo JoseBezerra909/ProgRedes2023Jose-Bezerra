@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: Wed, 31 May 2023 03:28:27 GMT
-Server: Apache/2.4.38 (Debian)
-Last-Modified: Fri, 15 Mar 2019 13:04:02 GMT
-ETag: "205c-58421ac425c6b"
-Accept-Ranges: bytes
-Content-Length: 8284
-Content-Type: image/png

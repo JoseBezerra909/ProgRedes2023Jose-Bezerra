@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: Wed, 31 May 2023 03:43:32 GMT
-Server: Apache/2.4.25 (Debian)
-Last-Modified: Wed, 27 Jan 2010 20:06:13 GMT
-ETag: "532be-47e2aef28d740"
-Accept-Ranges: bytes
-Content-Length: 340670
-Content-Type: application/pdf
