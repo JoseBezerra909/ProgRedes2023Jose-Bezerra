@@ -53,10 +53,10 @@ def conexao(host,protocolo):
 def salvar(dados,arquivo,arquivo_txt):
     #Função para criar/salvar os arquivos baixados dos dados requisitados
     try:
-        image = open(f'Socket - File Download\{arquivo}','wb')
+        image = open(arquivo,'wb')
         image.write(dados[1])
         image.close()
-        head = open(f'Socket - File Download\{arquivo_txt}','wb')
+        head = open(arquivo_txt,'wb')
         head.write(dados[0])
         head.close()
         print(f'Seguintes Arquivos Salvos:\n{arquivo}\n{arquivo_txt}')
