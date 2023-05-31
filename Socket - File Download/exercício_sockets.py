@@ -16,14 +16,15 @@ def manipular_url(original_url):
         f'{url_image}\n'
         f'{arq_img}\n'
         f'{arq_txt}\n'
-        )'''
+        )
+    '''
     return s,url_host, url_image, arq_img,arq_txt
 
 def conexao(host,protocolo):
     socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     if 'https' in protocolo:
         try:
-            print(f'Conexão HTTPS')
+            print(f'Conexão HTTPS Estabelecida!')
             port = 443
             context = ssl.create_default_context()
             context.check_hostname = 0
@@ -36,7 +37,7 @@ def conexao(host,protocolo):
             exit()
     elif 'http' in protocolo:
         try:
-            print(f'Conexão HTTP')
+            print(f'Conexão HTTP Estabalecida!')
             port = 80
             socketTCP.connect((host,port))
             return socketTCP
@@ -47,38 +48,39 @@ def conexao(host,protocolo):
         print(f'Protocolo não suportado')
     return
 
-def salvar(dados,arquivo_png,arquivo_txt):
+def salvar(dados,arquivo,arquivo_txt):
     try:
-        image = open(f'Socket - File Download\{arquivo_png}','wb')
+        image = open(f'Socket - File Download\{arquivo}','wb')
         image.write(dados[1])
         image.close()
         head = open(f'Socket - File Download\{arquivo_txt}','wb')
         head.write(dados[0])
         head.close()
-        print('criou')
+        print(f'Seguintes Arquivos Salvos:\n{arquivo}\n{arquivo_txt}')
     except:
         print(f'Erro: {sys.exc_info()[0]}')
         exit()
 
 #---------------------------------------------
 #url_s = manipular_url('https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png')
-url_s = manipular_url('https://ead.ifrn.edu.br/portal/wp-content/uploads/2019/03/4Iwakb0M_400x400.png')
+#url_s = manipular_url('https://ead.ifrn.edu.br/portal/wp-content/uploads/2019/03/4Iwakb0M_400x400.png')
+url_s = manipular_url(input('Digite uma URL:'))
+
 protocolo = url_s[0]
 host = url_s[1]
 image = url_s[2]
 request = bytes(f'GET {image} HTTP/1.1\r\nHost: {host}\r\n\r\n','utf-8')
 buffer = 1024
-
-
-conectado = conexao(host,protocolo)
-conectado.sendall(request)
 data_ret = b''
 try:
+    conectado = conexao(host,protocolo)
+    conectado.sendall(request)
+    print('Baixando Dados!')
     while True:
         data = conectado.recv(buffer)
         data_ret += data
         if not data:
-            break
+            break  
     conectado.close()
     dados = data_ret.split('\r\n\r\n'.encode())
     salvar(dados,url_s[3],url_s[4])
