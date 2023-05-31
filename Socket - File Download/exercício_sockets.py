@@ -3,6 +3,7 @@ import socket, ssl, sys
 #--------------------------------------------
 #funções
 def manipular_url(original_url):
+    #Retira da url declarada os dados necessário para requisição
     url = original_url.split('//',1)
     s = url[0]
     url_host = url[1].split('/',1)[0]
@@ -21,6 +22,7 @@ def manipular_url(original_url):
     return s,url_host, url_image, arq_img,arq_txt
 
 def conexao(host,protocolo):
+    #cria uma conexão http ou https atraves da url
     socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     if 'https' in protocolo:
         try:
@@ -49,6 +51,7 @@ def conexao(host,protocolo):
     return
 
 def salvar(dados,arquivo,arquivo_txt):
+    #Função para criar/salvar os arquivos baixados dos dados requisitados
     try:
         image = open(f'Socket - File Download\{arquivo}','wb')
         image.write(dados[1])
@@ -60,19 +63,21 @@ def salvar(dados,arquivo,arquivo_txt):
     except:
         print(f'Erro: {sys.exc_info()[0]}')
         exit()
-
 #---------------------------------------------
+#Separa as informações necessárias
 url_s = manipular_url(input('Digite uma URL:'))
-
 protocolo = url_s[0]
 host = url_s[1]
 image = url_s[2]
 request = bytes(f'GET {image} HTTP/1.1\r\nHost: {host}\r\n\r\n','utf-8')
 buffer = 1024
 data_ret = b''
+
 try:
+    #Estabelece conexão e recebe os dados
     conectado = conexao(host,protocolo)
     conectado.sendall(request)
+    
     print('Baixando Dados!')
     while True:
         data = conectado.recv(buffer)
@@ -80,6 +85,7 @@ try:
         if not data:
             break  
     conectado.close()
+    
     dados = data_ret.split('\r\n\r\n'.encode())
     salvar(dados,url_s[3],url_s[4])
     
