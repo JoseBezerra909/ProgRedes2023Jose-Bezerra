@@ -61,6 +61,7 @@ def salvar(dados,arquivo,extensao):
 #url_s = manipular_url(input('Digite uma URL:'))
 #url_s = manipular_url('https://ead.ifrn.edu.br/portal/wp-content/uploads/2019/03/4Iwakb0M_400x400.png')
 url_s = manipular_url('http://httpbin.org/image/png')
+url_s = manipular_url('https://down-lum-br.img.susercontent.com/br-11134103-23010-10t41nrr7vlv89.webp')
 #url_s = manipular_url('https://www.caelum.com.br/apostila/apostila-python-orientacao-a-objetos.pdf')
 #url_s = manipular_url('https://uploads.jovemnerd.com.br/wp-content/uploads/2022/04/star_wars_darth_vader_tudo_sobre__cv04bw-1210x544.jpg')
 requisicao = bytes(f'GET {url_s["url_image"]} HTTP/1.1\r\nHost: {url_s["host"]}\r\nConnection: close\r\n\r\n','utf-8')
