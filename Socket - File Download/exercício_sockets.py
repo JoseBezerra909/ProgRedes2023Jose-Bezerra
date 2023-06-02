@@ -1,5 +1,5 @@
 #imports
-import socket, ssl, sys, requests, time
+import socket, ssl, sys, requests
 #--------------------------------------------
 #funções
 def manipular_url(original_url):
