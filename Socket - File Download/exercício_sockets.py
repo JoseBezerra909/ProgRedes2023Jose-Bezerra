@@ -4,6 +4,7 @@ import socket, ssl, sys, requests
 #funções
 def manipular_url(original_url):
     #Retira da url declarada os dados necessário para requisição
+    
     url = original_url.split('://',1)
     cabecalho = requests.head(original_url).headers
     protocolo = url[0]
@@ -12,7 +13,8 @@ def manipular_url(original_url):
     image = image.rsplit('.', 1)[0]
     extensao = '.' + (cabecalho['Content-Type'].split('/',1)[1]).split(';')[0]
     tamanho = cabecalho['Content-Length']
-    return {'protocolo':protocolo, 'host':host, 'url_image':url_image, 'image':image, 'extensao':extensao, 'tamanho':tamanho}
+        
+    return {'protocolo':protocolo, 'host':host, 'url_image':url_image, 'image':image ,'extensao':extensao, 'tamanho':tamanho}
 
 def conexao(host,protocolo):
     #cria uma conexão http ou https atraves da url
@@ -46,12 +48,10 @@ def conexao(host,protocolo):
 def salvar(dados,arquivo,extensao):
     #Função para criar/salvar os arquivos baixados dos dados requisitados
     character = [':','/','*','?','"','<','>','|',"'"]
-    local = 0
     for special in character:
-        while local != -1:    
-            local = arquivo.find(special)
-            arquivo = arquivo.replace(special,'')
-        local = 0
+        arquivo = arquivo.replace(special,'')
+    if len(arquivo) > 15:
+        arquivo = arquivo[:100]
     try:
         
         image = open(arquivo + extensao,'wb')
@@ -60,7 +60,7 @@ def salvar(dados,arquivo,extensao):
         cabecalho = open(arquivo + '.txt' ,'wb')
         cabecalho.write(dados[0])
         cabecalho.close()
-        #print(f'\nSeguintes Arquivos Salvos:\n{arquivo+extensao}\n{arquivo+"txt"}')
+        print(f'\nSeguintes Arquivos Salvos:\n{arquivo+extensao}\n{arquivo+"txt"}')
     except OSError as e:
         print(e)
         exit()
@@ -75,6 +75,8 @@ url_s = manipular_url(input('Digite uma URL:'))
 #url_s = manipular_url('https://down-lum-br.img.susercontent.com/br-11134103-23010-10t41nrr7vlv89.webp')
 #url_s = manipular_url('https://www.caelum.com.br/apostila/apostila-python-orientacao-a-objetos.pdf')
 #url_s = manipular_url('https://uploads.jovemnerd.com.br/wp-content/uploads/2022/04/star_wars_darth_vader_tudo_sobre__cv04bw-1210x544.jpg')
+#url_s = manipular_url('https://www.youtube.com/watch?v=bOF-K4dLrc8')
+
 print(url_s)
 requisicao = bytes(f'GET {url_s["url_image"]} HTTP/1.1\r\nHost: {url_s["host"]}\r\nConnection: close\r\n\r\n','utf-8')
 buffer = 4096
