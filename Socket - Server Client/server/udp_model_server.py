@@ -17,4 +17,6 @@ except:
     udp_socket.close()
     print(f'Erro: {sys.exc_info()[0]}')
 
+
+
 #atual_dir = os.path.dirname(__file__) + '\img' + '\img1.png'
